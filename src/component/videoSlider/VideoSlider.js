@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import guckflixApi, {
-  VideoCardActionType,
-  VideoSliderActionType,
-} from '../../config/guckflixApi';
+import guckflixApi, { VideoSliderActionType } from '../../config/guckflixApi';
 import apiConfig from '../../config/apiConfig';
 import './videoSlider.css';
 import { useNavigate, useParams } from 'react-router';
@@ -148,13 +145,13 @@ export const VideoSliderItems = ({ item, action, category, buttonNeed }) => {
     }
     wrapRef.current.style.transform = `translateX(${moved}px)`;
   };
-  const navigate = useNavigate();
+
   return (
     <div className="videoSlider__items">
       <div className="videoSlider__items__title">
         {item.text}
         <div style={{ display: 'flex', gap: '0.5vw' }}>
-          {buttonNeed == true && (
+          {buttonNeed === true && (
             <div>
               <button onClick={() => sliderAction(slideConfig.left)}>
                 <span className="material-symbols-outlined">

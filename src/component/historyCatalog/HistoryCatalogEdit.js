@@ -6,7 +6,7 @@ import { HoverbleClickableBtn } from './HistoryCatalog';
 
 const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
   useEffect(() => {
-    if (catalogItems.length != 0) {
+    if (catalogItems.length !== 0) {
       console.log(catalogItems);
     }
   }, [catalogItems]);
@@ -23,7 +23,7 @@ const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
   const deleteCreditHandle = async (movieId, creditId) => {
     if (window.confirm('삭제합니까?')) {
       const response = await guckflixApi.deleteMovieCredit(movieId, creditId);
-      if (response.status == 204 || response.status == 200) {
+      if (response.status === 204 || response.status === 200) {
         setCatalogItems(
           catalogItems.filter((item) => {
             return item.credit_id !== creditId;
@@ -39,7 +39,7 @@ const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
     const response = await guckflixApi.patchMovieCredit(movieId, creditId, {
       character: editingContent,
     });
-    if (response.status == 204 || response.status == 200) {
+    if (response.status === 204 || response.status === 200) {
       console.log(response);
       setCatalogItems(
         catalogItems.map((item, index) => {
@@ -60,7 +60,7 @@ const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
       actor_id: actorId,
       character: characterName,
     });
-    if (response.status == 201 || response.status == 200) {
+    if (response.status === 201 || response.status === 200) {
       setCatalogItems([...catalogItems, response.data]);
     }
   };
@@ -79,14 +79,14 @@ const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
 
   const keydownHandler = (e) => {
     // 위쪽 화살표를 누른 경우, 포커스를 범위 내에서 -1
-    if (e.keyCode == 38 && focus >= 1) setFocus(focus - 1);
+    if (e.keyCode === 38 && focus >= 1) setFocus(focus - 1);
 
     // 아래 화살표를 누른 경우, 포커스를 범위 내에서 +1
-    if (e.keyCode == 40 && focus < searchedItems.length - 1)
+    if (e.keyCode === 40 && focus < searchedItems.length - 1)
       setFocus(focus + 1);
 
     // 엔터를 누른 경우, 사용자의 커서가 위치한 영화를 선택
-    if (e.keyCode == 13 && focus >= 0 && focus <= searchedItems.length - 1) {
+    if (e.keyCode === 13 && focus >= 0 && focus <= searchedItems.length - 1) {
       setSearchKeyword(searchedItems[focus].title);
       setIsSelected(true);
       setSelectedMovie(searchedItems[focus]);
@@ -95,19 +95,19 @@ const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
 
   useEffect(() => {
     // 검색어가 존재할 때, 사용자가 선택한 것이 없으면 검색하고, 자동완성 박스를 보여줌
-    if (searchKeyword != '' && !isSelected) {
+    if (searchKeyword !== '' && !isSelected) {
       search();
     }
 
     // 검색어가 존재할 때, 사용자가 선택한 것이 있으면 자동완성 박스를 보여줄 필요가 없음
-    if (searchKeyword != '' && isSelected) {
+    if (searchKeyword !== '' && isSelected) {
       setSearchedItems([]);
       setIsSelected(true);
       setFocus(-1);
     }
 
     // 검색어가 없으면 자동완성 박스를 보여줄 필요가 없음
-    if (searchKeyword == '') {
+    if (searchKeyword === '') {
       setSearchedItems([]);
       setIsSelected(false);
       setSelectedMovie({});
@@ -132,7 +132,7 @@ const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
           items={searchedItems}
           setIsSelected={setIsSelected}
           setSearchKeyword={setSearchKeyword}
-          setSelectedMovie={setSelectedMovie}
+          setSelectedItem={setSelectedMovie}
           setFocus={setFocus}
           focus={focus}
         />
@@ -233,18 +233,18 @@ const HistoryCatalogEdit = ({ catalogItems, setCatalogItems, actorId }) => {
 
 export default HistoryCatalogEdit;
 
-const AutoCompleteBox = ({
+export const AutoCompleteBox = ({
   items,
   setSearchKeyword,
   setIsSelected,
   focus,
   setFocus,
-  setSelectedMovie,
+  setSelectedItem,
 }) => {
   const clickHandler = (item) => {
-    setSearchKeyword(item.title);
+    setSearchKeyword(item.title || item.name);
     setIsSelected(true);
-    setSelectedMovie(item);
+    setSelectedItem(item);
   };
 
   return (
@@ -252,14 +252,14 @@ const AutoCompleteBox = ({
       {items.map((item, idx) => (
         <div
           className={
-            focus == idx ? 'autoComplete__item' : 'autoComplete__item__focus'
+            focus === idx ? 'autoComplete__item' : 'autoComplete__item__focus'
           }
           // 클릭한 경우, 사용자의 커서가 위치한 영화를 선택
           onClick={() => clickHandler(item)}
           // 마우스 커서가 위치하면 Focus
           onMouseEnter={() => setFocus(idx)}
         >
-          <div>{item.title}</div>
+          <div>{item.title || item.name}</div>
         </div>
       ))}
     </div>

@@ -10,18 +10,17 @@
 }
 
 .loginForm input {
-  min-width: 300px;
-  font: inherit;
-  margin: 0;
-  box-sizing: border-box;
+  background-color: #333;
   border: 0;
   border-radius: 4px;
+  box-sizing: border-box;
   color: #fff;
-  line-height: 50px;
-  padding: 0px 20px 0;
-  background-color: #333;
+  font: inherit;
   font-weight: 300;
-  margin-bottom: 20px;
+  line-height: 50px;
+  margin: 0 0 20px;
+  min-width: 300px;
+  padding: 0 20px;
 }
 
 .loginForm h1 {

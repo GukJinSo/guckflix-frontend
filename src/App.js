@@ -11,8 +11,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import LoginChecker from './LoginChecker';
 import ActorEditForm from './page/detail/ActorEditForm';
-import PrivateRoute from './PrivateRoute';
 import Home from './page/Home';
+import AdminRoute from './AdminRoute';
+import MovieForm from './page/movieForm/MovieForm';
 
 function App() {
   const store = createStore(loginReducer);
@@ -29,7 +30,11 @@ function App() {
           <Route path="/loginForm" element={<LoginForm />} />
           <Route
             path="/actors/:id/edit"
-            element={<PrivateRoute element={<ActorEditForm />} />}
+            element={<AdminRoute element={<ActorEditForm />} />}
+          />
+          <Route
+            path="/movies/form"
+            element={<AdminRoute element={<MovieForm />} />}
           />
         </Routes>
         <Footer />

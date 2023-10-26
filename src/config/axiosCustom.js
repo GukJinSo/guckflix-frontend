@@ -2,7 +2,7 @@ import axios from 'axios';
 import apiConfig from './apiConfig';
 import queryString from 'query-string';
 
-const axiosCustom = axios.create({
+const axiosJson = axios.create({
   baseURL: apiConfig.baseUrl,
   headers: {
     'Content-type': 'application/json',
@@ -10,8 +10,18 @@ const axiosCustom = axios.create({
   paramsSerializer: (params) =>
     queryString.stringify({
       ...params,
-      // language: apiConfig.language,
     }),
 });
 
-export default axiosCustom;
+export const axiosMultipart = axios.create({
+  baseURL: apiConfig.baseUrl,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+  paramsSerializer: (params) =>
+    queryString.stringify({
+      ...params,
+    }),
+});
+
+export default axiosJson;

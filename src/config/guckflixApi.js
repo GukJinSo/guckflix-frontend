@@ -1,7 +1,8 @@
-import axiosCustom from './axiosCustom.js';
+import axiosJson, { axiosMultipart } from './axiosCustom.js';
 
 export const category = {
   movies: 'movies',
+  actors: 'actors',
 };
 
 export const videoType = {
@@ -31,35 +32,39 @@ export const VideoCardActionType = {
 const guckflixApi = {
   getList: (cate, type, params) => {
     const url = category[cate] + '/' + sortingType[type];
-    return axiosCustom.get(url, params);
+    return axiosJson.get(url, params);
   },
   getVideos: (cate, id) => {
     const url = category[cate] + '/' + id + '/videos';
-    return axiosCustom.get(url, { params: {} });
+    return axiosJson.get(url, { params: {} });
   },
   getDetail: (cate, id, params) => {
     const url = category[cate] + '/' + id;
-    return axiosCustom.get(url, params);
+    return axiosJson.get(url, params);
   },
   getSimilar: (cate, id, params) => {
     const url = category[cate] + '/' + id + '/similar';
-    return axiosCustom.get(url, params);
+    return axiosJson.get(url, params);
   },
   getCredit: (cate, id, params) => {
     const url = category[cate] + '/' + id + '/credits';
-    return axiosCustom.get(url, params);
+    return axiosJson.get(url, params);
   },
   getSearchResult: (cate, params) => {
     const url = category[cate] + '/' + 'search';
-    return axiosCustom.get(url, params);
+    return axiosJson.get(url, params);
   },
   getActorDetail: (id, params) => {
     const url = '/actors/' + id;
-    return axiosCustom.get(url, params);
+    return axiosJson.get(url, params);
+  },
+  postMovie: (params) => {
+    const url = '/movies';
+    return axiosJson.post(url, params);
   },
   patchActorPhoto: (id, params) => {
     const url = '/actors/' + id + '/photo';
-    return axiosCustom.patch(url, params, {
+    return axiosJson.patch(url, params, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -67,15 +72,19 @@ const guckflixApi = {
   },
   patchMovieCredit: (movieId, creditId, params) => {
     const url = '/movies/' + movieId + '/credits/' + creditId;
-    return axiosCustom.patch(url, params);
+    return axiosJson.patch(url, params);
   },
   deleteMovieCredit: (movieId, creditId) => {
     const url = '/movies/' + movieId + '/credits/' + creditId;
-    return axiosCustom.delete(url);
+    return axiosJson.delete(url);
   },
   postMovieCredit: (movieId, params) => {
     const url = '/movies/' + movieId + '/credits/';
-    return axiosCustom.post(url, params);
+    return axiosJson.post(url, params);
+  },
+  getGenres: () => {
+    const url = '/genres';
+    return axiosJson.get(url);
   },
 };
 

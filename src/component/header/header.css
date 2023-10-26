@@ -74,6 +74,7 @@
 }
 
 .header__itmes__li button {
+  padding: 0px;
   position: relative;
   transition: width 0.5s ease;
   text-decoration: none;

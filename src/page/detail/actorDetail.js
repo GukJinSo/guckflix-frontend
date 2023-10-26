@@ -8,6 +8,7 @@ import HistoryCatalog, {
   HoverbleClickableBtn,
 } from '../../component/historyCatalog/HistoryCatalog';
 import '../../component/heroSlide/heroSlide.css';
+import { useSelector } from 'react-redux';
 
 const ActorDetail = () => {
   const { id } = useParams();
@@ -19,6 +20,11 @@ const ActorDetail = () => {
   const [isOverflow, setIsOverflow] = useState(false);
 
   const navigate = useNavigate();
+
+  const role = useSelector((state) => state.role);
+  const editFormHandle = () => {
+    navigate(`/actors/${id}/edit`);
+  };
 
   const getActorDetail = async () => {
     const params = {};
@@ -46,7 +52,7 @@ const ActorDetail = () => {
   };
 
   const calcAge = (birth_day, death_day) => {
-    if (birth_day == undefined) return;
+    if (birth_day === undefined) return;
 
     const birthDate = new Date(birth_day);
     const currentOrDeathDate =
@@ -93,10 +99,6 @@ const ActorDetail = () => {
     setIsOverflow(false);
   };
 
-  const editHandle = () => {
-    navigate(`/actors/${id}/edit`);
-  };
-
   return (
     <div className="detail">
       <div className="actorDetail__wrapper">
@@ -120,7 +122,7 @@ const ActorDetail = () => {
         </div>
         <div className="actorDetail__right__side">
           <div className="actorDetail__title">{detail.name}</div>
-          <h2 onClick={editHandle}>약력</h2>
+          <h2>약력</h2>
           <div
             className={
               isOverflow
@@ -149,6 +151,13 @@ const ActorDetail = () => {
           </div>
         </div>
       </div>
+      {role === 'ADMIN' ? (
+        <div className="text-align-center padding-3vh-updown">
+          <HoverbleClickableBtn btnName={'수정'} func={editFormHandle} />
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

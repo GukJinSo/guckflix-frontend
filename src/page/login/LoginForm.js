@@ -51,6 +51,10 @@ const LoginForm = () => {
     if (data.status_code === 200) {
       dispatch({ type: LOGIN_ACTION_TYPE.SET_ID, payload: data.id });
       dispatch({ type: LOGIN_ACTION_TYPE.SET_LOGIN, payload: true });
+      dispatch({
+        type: LOGIN_ACTION_TYPE.SET_ROLE,
+        payload: data.role,
+      });
       navigate('/');
     }
     if (data.status_code === 400) {

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Footer from '../component/footer/Footer.js';
+import React from 'react';
 import HeroSlide from '../component/heroSlide/HeroSlide.jsx';
 import VideoSlider from '../component/videoSlider/VideoSlider.js';
 import {

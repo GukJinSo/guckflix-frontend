@@ -6,7 +6,7 @@
 .actorDetail__wrapper {
   font-weight: 100;
   display: grid;
-  padding: 20vh 18vw;
+  padding: 20vh 18vw 0;
   grid-template-columns: 0.3fr 1fr;
 }
 
@@ -89,4 +89,12 @@
 
 .actorDetail__credits .videoSlider__items__cards__wrap__card__title {
   font-size: 1vw;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.padding-3vh-updown {
+  padding: 3vh 0 3vh 0;
 }

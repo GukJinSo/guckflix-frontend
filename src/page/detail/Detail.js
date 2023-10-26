@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import VideoSlider from '../../component/videoSlider/VideoSlider';
 import apiConfig from '../../config/apiConfig';

@@ -1,14 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import './actorDetail.css';
 import apiConfig from '../../config/apiConfig';
-import HistoryCatalog, {
-  HoverbleClickableBtn,
-} from '../../component/historyCatalog/HistoryCatalog';
+import { HoverbleClickableBtn } from '../../component/historyCatalog/HistoryCatalog';
 import '../../component/heroSlide/heroSlide.css';
 import './actorDetail.css';
 import HistoryCatalogEdit from '../../component/historyCatalog/HistoryCatalogEdit';
+import '../../component/historyCatalog/historyCatalog.css';
 import guckflixApi from '../../config/guckflixApi';
 import './actorEditForm.css';
 
