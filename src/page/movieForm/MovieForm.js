@@ -148,6 +148,7 @@ const MovieForm = () => {
         setW500PrevImage(event.target.result);
       };
       reader.readAsDataURL(file);
+      setErrorMessages({ ...errorMessages, w500File: '' });
     }
   };
 
@@ -159,12 +160,112 @@ const MovieForm = () => {
       const reader = new FileReader();
       reader.onload = (event) => {
         setBackdropPrevImage(event.target.result);
+        setErrorMessages({ ...errorMessages, backdropPathFile: '' });
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const calculateMaxDate = () => {
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 30);
+
+    const year = maxDate.getFullYear();
+    const month = (maxDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = maxDate.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const [errorMessages, setErrorMessages] = useState({
+    w500File: '',
+    backdropPathFile: '',
+    title: '',
+    overview: '',
+    addedCredits: '',
+    checkedGenreList: '',
+    releaseDate: '',
+  });
+
+  const formValidate = () => {
+    setErrorMessages({
+      w500File: '',
+      backdropPathFile: '',
+      title: '',
+      overview: '',
+      addedCredits: '',
+      checkedGenreList: '',
+      releaseDate: '',
+    });
+
+    if (w500File === null) {
+      setErrorMessages({
+        ...errorMessages,
+        w500File: '500x750 이미지를 올려주세요',
+      });
+      document.getElementById('w500File').focus();
+      return false;
+    }
+    if (backdropPathFile === null) {
+      setErrorMessages({
+        ...errorMessages,
+        backdropPathFile: '백그라운드 이미지를 올려주세요',
+      });
+      document.getElementById('backdropImage').focus();
+      return false;
+    }
+
+    if (title === null || title === '' || title > 100) {
+      setErrorMessages({
+        ...errorMessages,
+        title: '제목을 100자 미만으로 입력하세요',
+      });
+      document.getElementById('title').focus();
+      return false;
+    }
+
+    if (overview === null || overview === '' || overview.length > 1000) {
+      setErrorMessages({
+        ...errorMessages,
+        overview: '내용을 1000자 미만으로 입력하세요',
+      });
+      document.getElementById('overview').focus();
+      return false;
+    }
+    if (addedCredits.length === 0 || addedCredits.length > 20) {
+      setErrorMessages({
+        ...errorMessages,
+        addedCredits: '출연진은 1명 이상 20명 이하로 입력하세요',
+      });
+      document.getElementById('credit').focus();
+      return false;
+    }
+    if (checkedGenreList.length === 0 || checkedGenreList.length > 10) {
+      setErrorMessages({
+        ...errorMessages,
+        checkedGenreList: '장르를 1개 이상 10개 이하로 입력하세요',
+      });
+      document.getElementById('genre').focus();
+      return false;
+    }
+
+    if (releaseDate > new Date() + 30 || new Date('1900-01-01') < releaseDate) {
+      setErrorMessages({
+        ...errorMessages,
+        releaseDate:
+          '개봉일은 1900년 1월 1일 이후부터 오늘 날짜로 30일 이후까지만 입력 가능합니다',
+      });
+      document.getElementById('date').focus();
+    }
+    return false;
+  };
+
   const formHandler = async () => {
+    if (!formValidate()) return;
+
+    if (!Window.confirm('제출 하시겠습니까?')) return;
+
     const formData = new FormData();
 
     formData.append(
@@ -197,35 +298,66 @@ const MovieForm = () => {
         <div className="left">
           <h2>세로형 이미지</h2>
           <img src={w500PrevImage ? w500PrevImage : noImage} />
-          <input type="file" accept="image/jpg" onChange={w500ImageHandle} />
+          <input
+            type="file"
+            accept="image/jpg"
+            onChange={w500ImageHandle}
+            id="w500File"
+          />
+          {errorMessages.w500File !== '' ? (
+            <div className="color-red">{errorMessages.backdropPathFile}</div>
+          ) : (
+            <></>
+          )}
           <h2>백그라운드 이미지</h2>
           <img src={backdropPrevImage ? backdropPrevImage : noImage} />
           <input
             type="file"
             accept="image/jpg"
+            id="backdropImage"
             onChange={backdropImageHandle}
           />
+          {errorMessages.backdropPathFile !== '' ? (
+            <div className="color-red">{errorMessages.backdropPathFile}</div>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="right">
           <div className="title">
             <h2>제목</h2>
             <input
-              className="shortTextInput"
+              className="shortTextInput width-100percent box-sizing-border-box"
+              maxLength={100}
               type="text"
+              id="title"
               placeholder="제목"
               value={title}
               onChange={titleHandler}
             ></input>
+            {errorMessages.title !== '' ? (
+              <div className="color-red">{errorMessages.title}</div>
+            ) : (
+              <></>
+            )}
           </div>
           <div>
             <h2>개봉일</h2>
             <input
               className="date"
               type="date"
+              id="date"
+              min={'1900-01-01'}
+              max={calculateMaxDate()}
               value={releaseDate}
               data-placeholder="날짜 선택"
               onChange={releaseDateHandler}
             />
+            {errorMessages.releaseDate !== '' ? (
+              <div className="color-red">{errorMessages.releaseDate}</div>
+            ) : (
+              <></>
+            )}
           </div>
           <div>
             <h2>영화 소개</h2>
@@ -233,11 +365,17 @@ const MovieForm = () => {
               className="overview"
               placeholder="영화 소개"
               value={overview}
+              id="overview"
               onChange={overviewHandler}
             ></textarea>
+            {errorMessages.overview !== '' ? (
+              <div className="color-red">{errorMessages.overview}</div>
+            ) : (
+              <></>
+            )}
           </div>
           <div>
-            <h2>장르 선택</h2>
+            <h2 id="genre">장르 선택</h2>
             {genreList.map((genre) => (
               <div className="display-inline-block margin-10" key={genre.id}>
                 <input
@@ -248,6 +386,11 @@ const MovieForm = () => {
                 <label htmlFor={genre.id}>{genre.genre}</label>
               </div>
             ))}
+            {errorMessages.checkedGenreList !== '' ? (
+              <div className="color-red">{errorMessages.checkedGenreList}</div>
+            ) : (
+              <></>
+            )}
           </div>
           <div>
             <h2>출연진 등록</h2>
@@ -259,6 +402,7 @@ const MovieForm = () => {
                 value={searchKeyword}
                 onKeyDown={keydownHandler}
                 disabled={isSelected}
+                id="credit"
                 placeholder="출연자를 추가하려면 배우명을 검색하세요"
               />
               <div className="relative">
@@ -316,6 +460,11 @@ const MovieForm = () => {
                   </div>
                 ))}
             </div>
+            {errorMessages.addedCredits !== '' ? (
+              <div className="color-red">{errorMessages.addedCredits}</div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
