@@ -30,6 +30,10 @@ export const VideoCardActionType = {
 };
 
 const guckflixApi = {
+  getUsernameCheck: (params) => {
+    const url = '/members/usernameCheck?username=' + params.username;
+    return axiosJson.get(url, { validateStatus: false });
+  },
   getList: (cate, type, params) => {
     const url = category[cate] + '/' + sortingType[type];
     return axiosJson.get(url, params);
@@ -58,9 +62,13 @@ const guckflixApi = {
     const url = '/actors/' + id;
     return axiosJson.get(url, params);
   },
+  postSignUp: (params) => {
+    const url = '/members';
+    return axiosJson.post(url, params);
+  },
   postMovie: (params) => {
     const url = '/movies';
-    return axiosJson.post(url, params);
+    return axiosMultipart.post(url, params);
   },
   patchActorPhoto: (id, params) => {
     const url = '/actors/' + id + '/photo';

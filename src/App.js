@@ -14,6 +14,7 @@ import ActorEditForm from './page/detail/ActorEditForm';
 import Home from './page/Home';
 import AdminRoute from './AdminRoute';
 import MovieForm from './page/movieForm/MovieForm';
+import SignUpForm from './page/login/SignUpForm.js';
 
 function App() {
   const store = createStore(loginReducer);
@@ -28,6 +29,7 @@ function App() {
           <Route path="/movies/:id" element={<Detail />} />
           <Route path="/actors/:id" element={<ActorDetail />} />
           <Route path="/loginForm" element={<LoginForm />} />
+          <Route path="/signUpForm" element={<SignUpForm />} />
           <Route
             path="/actors/:id/edit"
             element={<AdminRoute element={<ActorEditForm />} />}

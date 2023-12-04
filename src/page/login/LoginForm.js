@@ -70,14 +70,19 @@ const LoginForm = () => {
   return (
     <div className="loginForm">
       <h1>로그인</h1>
-      <form onSubmit={submitHandler}>
+      <form
+        onSubmit={submitHandler}
+        onKeyDown={(e) => {
+          if (e.keyCode === 13) basicLogin();
+        }}
+      >
         <div>
           <input
             type="text"
             value={id}
             onChange={handleIdChange}
             id="id"
-            placeholder="이메일"
+            placeholder="아이디"
           />
         </div>
         <div>
@@ -92,6 +97,7 @@ const LoginForm = () => {
       </form>
       <div>
         <button onClick={basicLogin}>로그인</button>
+        <button onClick={() => navigate('/signUpForm')}>회원가입으로</button>
         <hr></hr>
         <button onClick={handleLogin}>구글로 연결</button>
       </div>

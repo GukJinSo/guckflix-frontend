@@ -16,7 +16,7 @@ const AdminRoute = ({ element }) => {
   return login && role === 'ADMIN' ? (
     element
   ) : (
-    <Navigate to="/loginForm" {...alert(`로그인이 필요한 서비스입니다`)} />
+    <Navigate to="/loginForm" {...alert(`관리자 권한이 필요한 서비스입니다`)} />
   );
 };
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../img/header_logo.png';
 import './header.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOGIN_ACTION_TYPE } from '../../store.js';
+import apiConfig from '../../config/apiConfig.js';
 
 const Header = () => {
   const login = useSelector((state) => state.login);
@@ -14,7 +15,7 @@ const Header = () => {
 
   // logout
   const logoutHandle = async () => {
-    const promise = await fetch('http://localhost:8081/members/logout', {
+    const promise = await fetch(`${apiConfig.baseUrl}/members/logout`, {
       method: 'POST',
       headers: {},
       credentials: 'include',
