@@ -50,9 +50,9 @@ const guckflixApi = {
     const url = category[cate] + '/' + id + '/similar';
     return axiosJson.get(url, params);
   },
-  getCredit: (cate, id, params) => {
+  getCredit: (cate, id) => {
     const url = category[cate] + '/' + id + '/credits';
-    return axiosJson.get(url, params);
+    return axiosJson.get(url);
   },
   getSearchResult: (cate, params) => {
     const url = category[cate] + '/' + 'search';
@@ -69,6 +69,10 @@ const guckflixApi = {
   postMovie: (params) => {
     const url = '/movies';
     return axiosMultipart.post(url, params);
+  },
+  patchMovie: (params, id) => {
+    const url = '/movies/' + id;
+    return axiosMultipart.patch(url, params);
   },
   patchActorPhoto: (id, params) => {
     const url = '/actors/' + id + '/photo';
