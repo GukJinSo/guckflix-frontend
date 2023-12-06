@@ -68,11 +68,11 @@ const guckflixApi = {
   },
   postMovie: (params) => {
     const url = '/movies';
-    return axiosMultipart.post(url, params);
+    return axiosMultipart.post(url, params, { withCredentials: true });
   },
   patchMovie: (params, id) => {
     const url = '/movies/' + id;
-    return axiosMultipart.patch(url, params);
+    return axiosMultipart.patch(url, params, { withCredentials: true });
   },
   patchActorPhoto: (id, params) => {
     const url = '/actors/' + id + '/photo';

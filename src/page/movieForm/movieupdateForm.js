@@ -221,6 +221,8 @@ const MovieupdateForm = () => {
   });
 
   const formValidate = () => {
+    console.log(form);
+
     setErrorMessages({
       w500File: '',
       backdropPathFile: '',
@@ -306,12 +308,14 @@ const MovieupdateForm = () => {
   const formHandler = async () => {
     if (!formValidate()) return;
 
+    console.log(form);
+
     if (!window.confirm('제출 하시겠습니까?')) return;
 
     const formData = new FormData();
 
     formData.append(
-      'form',
+      'movieUpdateForm',
       new Blob([JSON.stringify(form)], { type: 'application/json' }),
     );
 

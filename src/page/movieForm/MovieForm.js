@@ -93,7 +93,7 @@ const MovieForm = () => {
     if (e.keyCode === 40 && focus < searchedItems.length - 1)
       setFocus(focus + 1);
 
-    // 엔터를 누른 경우, 사용자의 커서가 위치한 영화를 선택
+    // 엔터를 누른 경우, 사용자의 커서가 위치한 배우를 선택
     if (e.keyCode === 13 && focus >= 0 && focus <= searchedItems.length - 1) {
       setSearchKeyword(searchedItems[focus].name);
       setIsSelected(true);
@@ -257,14 +257,15 @@ const MovieForm = () => {
           '개봉일은 1900년 1월 1일 이후부터 오늘 날짜로 30일 이후까지만 입력 가능합니다',
       });
       document.getElementById('date').focus();
+      return false;
     }
-    return false;
+    return true;
   };
 
   const formHandler = async () => {
     if (!formValidate()) return;
 
-    if (!Window.confirm('제출 하시겠습니까?')) return;
+    if (!window.confirm('제출 하시겠습니까?')) return;
 
     const formData = new FormData();
 
