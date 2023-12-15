@@ -91,7 +91,7 @@ const Catalog = () => {
   const action = VideoSliderActionType.catalog;
   const text = {
     catalog: '카탈로그',
-    search: '제목을 입력하고 엔터를 누르세요',
+    search: '제목을 입력하세요',
     loadMore: '더 찾기',
   };
 

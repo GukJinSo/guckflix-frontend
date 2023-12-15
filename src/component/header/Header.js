@@ -27,9 +27,12 @@ const Header = () => {
     if (response.status_code === 200) {
       dispatch({ type: LOGIN_ACTION_TYPE.SET_ID, payload: null });
       dispatch({ type: LOGIN_ACTION_TYPE.SET_LOGIN, payload: false });
+      dispatch({ type: LOGIN_ACTION_TYPE.SET_ROLE, payload: null });
       navigate('/');
     }
   };
+
+  const role = useSelector((state) => state.role);
 
   // Nav
   const headerNav = [
@@ -67,6 +70,13 @@ const Header = () => {
         <img src={logo} className="header__logo__img" alt="" />
       </div>
       <ul className="header__items">
+        {role === 'ADMIN' ? (
+          <li className="header__itmes__li">
+            <Link to={'/admin'}>Admin</Link>
+          </li>
+        ) : (
+          <></>
+        )}
         {headerNav.map((e, i) => {
           return (
             <li className="header__itmes__li" key={i}>

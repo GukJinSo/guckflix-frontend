@@ -30,6 +30,11 @@ export const VideoCardActionType = {
 };
 
 const guckflixApi = {
+  getPopular: (limit, page) => {
+    const url = `/movies/popular?limit=${limit}&page=${page}`;
+    return axiosJson.get(url);
+  },
+
   getUsernameCheck: (params) => {
     const url = '/members/usernameCheck?username=' + params.username;
     return axiosJson.get(url, { validateStatus: false });
