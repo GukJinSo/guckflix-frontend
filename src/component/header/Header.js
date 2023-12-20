@@ -22,7 +22,6 @@ const Header = () => {
     });
 
     const response = await promise.json();
-    console.log(response);
 
     if (response.status_code === 200) {
       dispatch({ type: LOGIN_ACTION_TYPE.SET_ID, payload: null });

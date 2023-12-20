@@ -52,7 +52,9 @@ const ActorDetail = () => {
   };
 
   const calcAge = (birth_day, death_day) => {
-    if (birth_day === undefined) return;
+    if (birth_day === undefined || birth_day === null) {
+      return;
+    }
 
     const birthDate = new Date(birth_day);
     const currentOrDeathDate =
@@ -106,9 +108,9 @@ const ActorDetail = () => {
           <img src={image}></img>
           <h2>인물 정보</h2>
           <h3>출생지</h3>
-          {detail.place_of_birth}
+          {detail.place_of_birth ? detail.place_of_birth : 'N/A'}
           <h3>생년월일</h3>
-          {detail.birth_day}
+          {detail.birth_day ? detail.birth_day : 'N/A'}
           {detail.death_day && (
             <>
               <h3>작고</h3>
@@ -116,7 +118,7 @@ const ActorDetail = () => {
             </>
           )}
           {detail.death_day ? <h3>작고 나이</h3> : <h3>나이</h3>}
-          <div>{age}</div>
+          <div>{age ? age : 'N/A'}</div>
           <h3>참여작 수</h3>
           {detail.credits && detail.credits.length}
         </div>
@@ -131,7 +133,7 @@ const ActorDetail = () => {
             }
             ref={biographyRef}
           >
-            {detail.biography}
+            {detail.biography ? detail.biography : 'N/A'}
           </div>
 
           {isOverflow ? (

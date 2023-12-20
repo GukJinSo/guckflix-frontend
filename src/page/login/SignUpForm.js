@@ -7,8 +7,6 @@ const STATUS = {
   SUCCESS: 'SUCCESS',
   FAIL: 'FAIL',
   ADVICE: 'ADVICE',
-  DUPLICATED: 'DUPLICATED',
-  AVALIABLE: 'AVALIABLE',
 };
 
 const MESSAGES = {
@@ -41,50 +39,40 @@ const SignUpForm = () => {
     status: STATUS.ADVICE,
   });
 
-  useEffect(() => {
-    const usernameAvaliableCheck = async (username) => {
-      // 서버로부터 사용 가능한 아이디인지 검사
-      const response = await guckflixApi.getUsernameCheck({
-        username: username,
-      });
-
-      if (response.status === 200) {
-        // 성공하면 녹색 글씨
-        setUsernameProps({
-          message: MESSAGES.AVALIABLE,
-          status: STATUS.AVALIABLE,
-        });
-      }
-      if (response.status === 409) {
-        setUsernameProps({
-          message: MESSAGES.DUPLICATED,
-          status: STATUS.DUPLICATED,
-        });
-      }
-    };
-
-    if (usernameProps.status === STATUS.SUCCESS) {
-      usernameAvaliableCheck(form.username);
-    }
-  }, [form.username]);
-
   const handleUsernameChange = async (event) => {
+    setForm({ ...form, username: event.target.value });
+
     // 4 ~ 20 자의 영문과 숫자만 허용. 영문자 필수
     var reg = /^(?=.*[A-Za-z])[A-Za-z0-9]{4,20}$/;
 
     // 입력값이 있어서 정규식을 검사하는 경우
     if (event.target.value !== '' && reg.test(event.target.value)) {
-      // 성공하면 녹색 글씨
-      setUsernameProps({
-        ...usernameProps,
-        status: STATUS.SUCCESS,
+      // 정규식을 성공하면 ID 검사
+      const response = await guckflixApi.getUsernameCheck({
+        username: event.target.value,
       });
+
+      if (response.status === 200) {
+        // ID 검증도 성공하면 녹색 글씨
+        setUsernameProps({
+          message: MESSAGES.AVALIABLE,
+          status: STATUS.SUCCESS,
+        });
+      }
+      if (response.status === 409) {
+        // ID가 중복되면 붉은 글씨
+        setUsernameProps({
+          message: MESSAGES.DUPLICATED,
+          status: STATUS.FAIL,
+        });
+      }
     } else {
-      // 실패하면 붉은 글씨
+      // 정규식을 실패하면 붉은 글씨
       setUsernameProps({
-        ...usernameProps,
+        message: MESSAGES.USERNAME,
         status: STATUS.FAIL,
       });
+      console.log('실패');
     }
 
     // 입력값이 공백이면 ADVICE (흰글씨 상태)
@@ -94,8 +82,6 @@ const SignUpForm = () => {
         status: STATUS.ADVICE,
       });
     }
-
-    setForm({ ...form, username: event.target.value });
   };
 
   const handlePasswordChange = (event) => {
@@ -258,7 +244,7 @@ const HandlerComponent = ({ handleProps }) => {
   };
 
   const failStyle = {
-    colro: 'red',
+    color: 'red',
   };
 
   if (handleProps.status === STATUS.ADVICE)
@@ -267,13 +253,7 @@ const HandlerComponent = ({ handleProps }) => {
   if (handleProps.status === STATUS.SUCCESS)
     return <div style={successStyle}>{handleProps.message}</div>;
 
-  if (handleProps.status === STATUS.AVALIABLE)
-    return <div style={successStyle}>{handleProps.message}</div>;
-
   if (handleProps.status === STATUS.FAIL)
-    return <div style={failStyle}>{handleProps.message}</div>;
-
-  if (handleProps.status === STATUS.DUPLICATED)
     return <div style={failStyle}>{handleProps.message}</div>;
 };
 
