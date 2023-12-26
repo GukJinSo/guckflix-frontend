@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../img/header_logo.png';
 import './header.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,29 +37,46 @@ const Header = () => {
   const headerNav = [
     { text: 'Home', path: '/' },
     { text: 'Movie', path: '/movies/catalog' },
-    // { text: 'TV', path: '/catalog/tv' },
   ];
   const nav = useNavigate();
 
   // 헤더 축소 애니메이션
   const header = useRef(null);
-  const shrinkHeader = () => {
-    if (window.scrollY > 100) {
-      header.current.classList.add('shrinkHeader');
-    } else {
-      header.current.classList.remove('shrinkHeader');
-    }
+
+  const defaultHeaderStyle = {
+    zIndex: '100',
+    boxSizing: 'border-box',
+    display: 'grid',
+    gridTemplateColumns: '0.5fr 2fr',
+    alignItems: 'center',
+    position: 'fixed',
+    width: '100vw',
+    opacity: '1',
+    height: '100px',
+    transition: '0.2s ease',
   };
 
+  const shrinkHeaderStyle = {
+    backgroundColor: 'black',
+    height: '50px',
+    opacity: '0.8',
+    transition: '0.7s ease',
+  };
+
+  const handleScroll = () => {
+    if (window.scrollY > 100) {
+      Object.assign(header.current.style, shrinkHeaderStyle);
+    } else {
+      Object.assign(header.current.style, defaultHeaderStyle);
+    }
+  };
   useEffect(() => {
-    window.addEventListener('scroll', shrinkHeader);
-    return () => {
-      window.removeEventListener('scroll', shrinkHeader);
-    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <div className="header" ref={header}>
+    <div style={defaultHeaderStyle} ref={header}>
       <div
         className="header__logo"
         onClick={() => {

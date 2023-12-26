@@ -251,7 +251,6 @@ export const AutoCompleteBox = ({
     <div className="autoComplete">
       {items.map((item, idx) => (
         <div
-          key={idx}
           className={
             focus === idx ? 'autoComplete__item' : 'autoComplete__item__focus'
           }

@@ -1,5 +1,4 @@
 import './App.css';
-import Header from './component/header/Header.js';
 import { Route, Routes } from 'react-router-dom';
 import Footer from './component/footer/Footer';
 import Catalog from './page/catalog/Catalog';
@@ -16,23 +15,47 @@ import AdminRoute from './AdminRoute';
 import MovieForm from './page/movieForm/MovieForm';
 import SignUpForm from './page/login/SignUpForm.js';
 import MovieupdateForm from './page/movieForm/movieupdateForm.js';
-import Admin from './page/admin/admin.js';
+import PublicRoute from './PublicRoute.js';
+import AdminOverview from './page/admin/AdminOverview.js';
+import AdminMovies from './page/admin/AdminMovies.js';
 
 function App() {
   const store = createStore(loginReducer);
+
   return (
     <div className="App">
       <Provider store={store}>
         <LoginChecker />
-        <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movies/catalog/" element={<Catalog />} />
-          <Route path="/movies/:id" element={<Detail />} />
-          <Route path="/actors/:id" element={<ActorDetail />} />
-          <Route path="/loginForm" element={<LoginForm />} />
-          <Route path="/signUpForm" element={<SignUpForm />} />
-          <Route path="/admin" element={<AdminRoute element={<Admin />} />} />
+          <Route path="/" element={<PublicRoute element={<Home />} />} />
+          <Route
+            path="/movies/catalog/"
+            element={<PublicRoute element={<Catalog />} />}
+          />
+          <Route
+            path="/movies/:id"
+            element={<PublicRoute element={<Detail />} />}
+          />
+          <Route
+            path="/actors/:id"
+            element={<PublicRoute element={<ActorDetail />} />}
+          />
+          <Route
+            path="/loginForm"
+            element={<PublicRoute element={<LoginForm />} />}
+          />
+          <Route
+            path="/signUpForm"
+            element={<PublicRoute element={<SignUpForm />} />}
+          />
+          <Route
+            path="/admin"
+            element={<AdminRoute element={<AdminOverview />} />}
+          />
+          <Route
+            path="/admin/movies"
+            element={<AdminRoute element={<AdminMovies />} />}
+          />
           <Route
             path="/actors/:id/edit"
             element={<AdminRoute element={<ActorEditForm />} />}

@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import Loading from './component/loading/Loading';
+import AdminTemplate from './component/admin/AdminTemplate.js';
 
 const AdminRoute = ({ element }) => {
   const login = useSelector((state) => state.login);
@@ -14,7 +15,7 @@ const AdminRoute = ({ element }) => {
 
   // 관리자인 경우
   return login && role === 'ADMIN' ? (
-    element
+    <AdminTemplate element={element} />
   ) : (
     <Navigate to="/loginForm" {...alert(`관리자 권한이 필요한 서비스입니다`)} />
   );
