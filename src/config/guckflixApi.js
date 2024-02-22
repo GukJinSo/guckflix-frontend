@@ -1,3 +1,4 @@
+import { stringifyUrl } from 'query-string';
 import axiosJson, { axiosMultipart } from './axiosCustom.js';
 
 export const category = {
@@ -34,10 +35,14 @@ const guckflixApi = {
     const url = `/movies/popular?limit=${limit}&page=${page}`;
     return axiosJson.get(url);
   },
-
   getUsernameCheck: (params) => {
     const url = '/members/usernameCheck?username=' + params.username;
     return axiosJson.get(url, { validateStatus: false });
+  },
+  getMovieOrderAndSort: (params) => {
+    const url = '/movies';
+    const qsUrl = stringifyUrl({ url, query: params });
+    return axiosJson.get(qsUrl, params);
   },
   getList: (cate, type, params) => {
     const url = category[cate] + '/' + sortingType[type];
